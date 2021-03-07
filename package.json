@@ -1,0 +1,19 @@
+{
+  "name": "myfirstapp",
+  "version": "1.0.0",
+  "description": "my first node.js app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Skervesen/myfirstapp.git"
+  },
+  "author": "Skervesen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Skervesen/myfirstapp/issues"
+  },
+  "homepage": "https://github.com/Skervesen/myfirstapp#readme"
+}
