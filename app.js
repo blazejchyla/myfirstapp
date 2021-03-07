@@ -3,9 +3,13 @@ const express = require('express')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
 const exphbs = require('express-handlebars')
-const connectDB = require('./config/db')
+const methodOverride = require('method-override')
 const passport = require('passport')
+const mongoose = require('mongoose')
 const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
+const connectDB = require('./config/db')
+
 
 // Load config
 dotenv.config({ path: './config/config.env' })
@@ -19,7 +23,7 @@ const app = express()
 
 // Logging
 if (process.env.NODE_ENV === 'development') {
-	app.use(morgan('dev'))
+  app.use(morgan('dev'))
 }
 
 // Handlebars
@@ -27,11 +31,14 @@ app.engine('.hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
 // Sessions
+// Sessions
 app.use(session({
-	secret: 'keyboard cat',
-	resave: false,
-	saveUninitialized: false,
-}))
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+  })
+)
 
 // Passport middleware
 app.use(passport.initialize())
