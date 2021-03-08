@@ -21,16 +21,22 @@ connectDB()
 
 const app = express()
 
+// Body parser
+app.use(express.urlencoded({ extented: false}))
+app.use(express.json())
+
 // Logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 
+// Handlebards helpers
+const { formatDate } = require('./helpers/hbs')
+
 // Handlebars
-app.engine('.hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));
+app.engine('.hbs', exphbs({helpers: { formatDate },defaultLayout: 'main', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
-// Sessions
 // Sessions
 app.use(session({
     secret: 'keyboard cat',
@@ -50,6 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 // Routes
 app.use('/', require('./routes/index'))
 app.use('/auth', require('./routes/auth'))
+app.use('/stories', require('./routes/stories'))
 
 const PORT = process.env.PORT || 5000
 
